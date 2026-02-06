@@ -1,42 +1,28 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-// import { getPopularMoviesRequested } from "../../../redux-saga/slices/moviesSlice";
+import { useDispatch } from "react-redux";
 
-import MovieCard from "../components/movieCard";
 import { getMoviesRequested } from "../../../redux-saga/slices/moviesSlice";
 import { FilterType } from "../types/FilterType";
-import { AppDispatch, RootState } from "../../../redux-saga/store";
+import { AppDispatch } from "../../../redux-saga/store";
+import { MovieSearch } from "../components/movieSerch";
+import { MoviesGrid } from "../components/movieGrid";
 
 export const MoviesPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-
-  const { movies, loading, error } = useSelector(
-    (state: RootState) => state.movies,
-  );
 
   useEffect(() => {
     dispatch(getMoviesRequested(FilterType.Popular));
   }, [dispatch]);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
-        gap: "20px",
-      }}
-    >
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} />
-      ))}
+    <div className="min-h-screen">
+      <header className="fixed top-5 w-[45rem] h-10 z-50 ">
+        <MovieSearch />
+      </header>
+
+      <main className="pt-20 px-6">
+        <MoviesGrid />
+      </main>
     </div>
   );
 };

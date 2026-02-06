@@ -23,6 +23,11 @@ export const moviesSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
+    searchRequested: (state, action: PayloadAction<string>) => {
+      state.loading = true;
+      state.error = null;
+    },
+
     getMoviesSucceeded(state, action: PayloadAction<Movie[]>) {
       state.loading = false;
       state.movies = action.payload;
@@ -34,7 +39,7 @@ export const moviesSlice = createSlice({
   },
 });
 
-export const { getMoviesFailed, getMoviesSucceeded, getMoviesRequested } =
+export const { getMoviesFailed, getMoviesSucceeded, getMoviesRequested, searchRequested } =
   moviesSlice.actions;
 
 export const moviesReducer = moviesSlice.reducer;

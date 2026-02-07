@@ -1,5 +1,6 @@
 export enum FilterType {
   Popular = "popular",
-  AiringNow = "airing_today",
-  Search = "search"
+  AiringNow = "now_playing",
+  Search = "search",
+  favorites = "favorites",
 }

@@ -1,11 +1,9 @@
 import { Input } from "antd";
 import { useDispatch } from "react-redux";
-import {
-  getMoviesRequested,
-  searchRequested,
-} from "../../../redux-saga/slices/moviesSlice";
+import { searchRequested } from "../../../redux-saga/slices/moviesSlice";
 import debounce from "lodash.debounce";
-import { use, useEffect } from "react";
+import { useEffect } from "react";
+import { changeFilter } from "../../../redux-saga/slices/FilterSlice";
 import { FilterType } from "../types/FilterType";
 
 const { Search } = Input;
@@ -15,7 +13,8 @@ export const MovieSearch: React.FC = () => {
 
   const debouncedDispatch = debounce((query) => {
     if (query.length < 2) return;
-    dispatch(searchRequested(query));
+    dispatch(changeFilter({ filter: FilterType.Search }));
+    dispatch(searchRequested({ query, page: 1 }));
   }, 500);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ export const MovieSearch: React.FC = () => {
 
   const onChange = (value: string) => {
     if (value.length == 0) {
-      dispatch(getMoviesRequested(FilterType.Popular));
+      dispatch(changeFilter({ filter: FilterType.Popular }));
     } else debouncedDispatch(value);
   };
   return (
@@ -35,7 +34,7 @@ export const MovieSearch: React.FC = () => {
       onChange={(e) => {
         onChange(e.target.value);
       }}
-      onSearch={(query) => dispatch(searchRequested(query))}
+      onClear={() => dispatch(changeFilter({ filter: FilterType.Popular }))}
       enterButton
       allowClear
     />

@@ -2,8 +2,13 @@ import MovieCard from "../components/movieCard";
 import { RootState } from "../../../redux-saga/store";
 import { useSelector } from "react-redux";
 import { FilterType } from "../types/FilterType";
+import { RefObject } from "react";
 
-export const MoviesGrid: React.FC = () => {
+interface MoviesGridProps {
+  gridRef: RefObject<HTMLDivElement>;
+}
+
+export const MoviesGrid: React.FC<MoviesGridProps> = ({ gridRef }) => {
   const { movies, loading, error } = useSelector(
     (state: RootState) => state.movies,
   );
@@ -19,9 +24,9 @@ export const MoviesGrid: React.FC = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-
   return (
     <div
+      ref={gridRef}
       style={{
         position: "relative",
         display: "grid",

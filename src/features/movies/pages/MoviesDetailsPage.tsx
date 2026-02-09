@@ -8,6 +8,7 @@ import {
   removeMovie,
 } from "../../../redux-saga/slices/favoriteMoviesSlice";
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
+import { useMovieDetailsKeyboard } from "../hooks/useMovieDetailsKeyboard ";
 
 export const MoviesDetailsPage: React.FC = () => {
   const { state } = useLocation();
@@ -29,6 +30,7 @@ export const MoviesDetailsPage: React.FC = () => {
       dispatch(addMovie(movie));
     }
   };
+  useMovieDetailsKeyboard({ toggleFavorite });
 
   return (
     <div>

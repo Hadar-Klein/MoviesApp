@@ -6,6 +6,12 @@ import { store } from "./redux-saga/store";
 import { Provider } from "react-redux";
 
 function App() {
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Tab") {
+      e.preventDefault();
+    }
+  });
+
   return (
     <>
       <Provider store={store}>

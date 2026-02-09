@@ -13,7 +13,7 @@ import { PayloadAction } from "@reduxjs/toolkit/react";
 
 function* fetchMoviesByFilter(
   action: PayloadAction<{ filter: FilterType; page: number }>,
-) {
+): Generator {
   try {
     console.log(action.payload);
     const filter = action.payload.filter;
@@ -28,7 +28,9 @@ function* fetchMoviesByFilter(
   }
 }
 
-function* searchMovies(action: PayloadAction<{ query: string; page: number }>) {
+function* searchMovies(
+  action: PayloadAction<{ query: string; page: number }>,
+): Generator {
   const query = action.payload.query;
   const page = action.payload.page;
   try {

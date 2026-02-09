@@ -15,18 +15,34 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
     navigate(`/movie/${movie.id}`, {
       state: { movie },
     });
-  }, [navigate, movie.id, movie]);
+  }, [navigate, movie]);
 
   return (
-    <Card
-      hoverable
-      style={{ width: 240 }}
-      cover={<img draggable={false} alt={title} src={posterUrl} />}
-      onClick={() => goToMovieDetails()}
-      onKeyDown={(e) => e.key === "Enter" && goToMovieDetails()}
+    <div
+      data-movie-card
+      tabIndex={0}
+      onClick={goToMovieDetails}
+      style={{ 
+        outline: 'none', 
+        cursor: 'pointer' 
+      }}
+      className="
+        focus:ring-4 
+        focus:ring-blue-500 
+        focus:scale-105 
+        transition-all 
+        duration-200 
+        rounded-lg
+      "
     >
-      <Card.Meta title={title} />
-    </Card>
+      <Card
+        hoverable
+        style={{ width: 240 }}
+        cover={<img draggable={false} alt={title} src={posterUrl} />}
+      >
+        <Card.Meta title={title} />
+      </Card>
+    </div>
   );
 };
 

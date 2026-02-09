@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Pagination } from "antd";
 import { getMoviesRequested } from "../../../redux-saga/slices/moviesSlice";
@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "../../../redux-saga/store";
 import { MovieSearch } from "../components/movieSerch";
 import { MoviesGrid } from "../components/movieGrid";
 import { FilterButton } from "../components/filterButton";
+import { useKeyboardNavigationMoviePage } from "../hooks/useKeyboardNavigationMoviePage";
 
 export const MoviesPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -14,8 +15,18 @@ export const MoviesPage: React.FC = () => {
   const { page, totalResults } = useSelector(
     (state: RootState) => state.movies,
   );
-
   const filter = useSelector((state: RootState) => state.filter.filter);
+
+  const headerRef = useRef<HTMLElement>(null!);
+  const gridRef = useRef<HTMLDivElement>(null!);
+  const paginationRef = useRef<HTMLDivElement>(null!);
+
+  useKeyboardNavigationMoviePage({
+    headerRef,
+    gridRef,
+    paginationRef,
+    gridColumns: 4,
+  });
 
   useEffect(() => {
     if (filter === FilterType.Search || filter === FilterType.favorites) return;
@@ -25,20 +36,42 @@ export const MoviesPage: React.FC = () => {
         page: 1,
       }),
     );
-  }, [filter]);
+  }, [filter, dispatch]);
+
   return (
-    <div className="min-h-screen">
-      <header className="fixed top-5 left-1/2 -translate-x-1/2 w-[45rem] z-50 flex items-center space-x-4">
-        <MovieSearch />
-        <FilterButton buttonFilter={FilterType.Popular} label="Popular" />
-        <FilterButton buttonFilter={FilterType.AiringNow} label="Airing Now" />
-        <FilterButton buttonFilter={FilterType.favorites} label="Favorites" />
+    <div className="min-h-screen" style={{ overflow: "hidden" }}>
+      <header
+        ref={headerRef}
+        className="fixed top-5 left-1/2 -translate-x-1/2 w-[45rem] z-50 flex items-center space-x-4"
+      >
+        <MovieSearch data-header-element="true" />
+
+        <FilterButton
+          data-header-element="true"
+          buttonFilter={FilterType.Popular}
+          label="Popular"
+        />
+
+        <FilterButton
+          data-header-element="true"
+          buttonFilter={FilterType.AiringNow}
+          label="Airing Now"
+        />
+
+        <FilterButton
+          data-header-element="true"
+          buttonFilter={FilterType.favorites}
+          label="Favorites"
+        />
       </header>
 
-      <main className="pt-24 px-6">
-        <MoviesGrid />
+      <main
+        className="pt-24 px-6"
+        style={{ height: "100vh", overflow: "hidden" }}
+      >
+        <MoviesGrid gridRef={gridRef} />
 
-        <div className="flex justify-center mt-8">
+        <div ref={paginationRef} className="flex justify-center mt-8">
           {filter !== FilterType.Search && filter !== FilterType.favorites && (
             <Pagination
               current={page}

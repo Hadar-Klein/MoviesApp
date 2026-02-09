@@ -1,14 +1,14 @@
-import { call, debounce, put, takeLatest, throttle } from "redux-saga/effects";
+import { call, put, takeLatest, throttle } from "redux-saga/effects";
 import {
   getMoviesFailed,
   getMoviesRequested,
   getMoviesSucceeded,
   searchRequested,
-} from "./slices/moviesSlice";
-import { getMoviesRaw } from "../services/api";
-import { FilterType } from "../features/movies/types/FilterType";
-import { mapToMovies } from "../utils/mappers";
-import { Movie } from "../features/movies/types/movie";
+} from "../slices/moviesSlice";
+import { getMoviesRaw } from "../../services/api";
+import { FilterType } from "../../features/movies/types/FilterType";
+import { mapToMovies } from "../../utils/mappers";
+import { Movie } from "../../features/movies/types/movie";
 import { PayloadAction } from "@reduxjs/toolkit/react";
 
 function* fetchMoviesByFilter(

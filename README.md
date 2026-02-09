@@ -1,3 +1,25 @@
+Setup Environment Variables
+
+Create a .env file in the root of the project.
+
+Add your TMDB API key like this:
+
+VITE_TMDB_API_KEY="your_api_key_here"
+
+
+Note: You need an API key from TMDB
+.
+To get one:
+
+Create an account on TMDB.
+
+Go to your account settings → API → Request an API key.
+
+Copy the key and paste it into your .env file as shown above.
+
+Save the file and restart your development server if it’s running.
+
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
